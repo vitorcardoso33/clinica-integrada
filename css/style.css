@@ -1,0 +1,835 @@
+:root {
+  --bg: #f4f7f8;
+  --fg: #1c2b33;
+  --muted: #64748b;
+  --card: #ffffff;
+  --main: #0f766e;
+  --main2: #115e59;
+  --line: #dbe3e6;
+  --success: #166534;
+  --success-bg: #dcfce7;
+  --danger: #991b1b;
+  --danger-bg: #fee2e2;
+  --info: #1e40af;
+  --info-bg: #dbeafe;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #10191d;
+    --fg: #e6eef0;
+    --muted: #9aaeb5;
+    --card: #182429;
+    --main: #2dd4bf;
+    --main2: #14b8a6;
+    --line: #2a3a41;
+    --success: #86efac;
+    --success-bg: #173525;
+    --danger: #fca5a5;
+    --danger-bg: #3b1d20;
+    --info: #93c5fd;
+    --info-bg: #172b45;
+  }
+}
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   CABEÇALHO
+   ========================================================= */
+
+header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 14px 24px;
+
+  background: var(--main);
+  color: #fff;
+
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 38px;
+  height: 38px;
+
+  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.16);
+
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.brand small {
+  display: block;
+  opacity: 0.8;
+  font-size: 0.78rem;
+}
+
+
+/* =========================================================
+   NAVEGAÇÃO
+   ========================================================= */
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+nav button {
+  background: transparent;
+  color: #fff;
+
+  border: 1px solid rgba(255, 255, 255, 0.45);
+
+  margin: 0;
+}
+
+nav button:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+nav button.on {
+  background: #fff;
+  color: #0f766e;
+}
+
+
+/* =========================================================
+   CONTEÚDO
+   ========================================================= */
+
+main {
+  width: min(1180px, calc(100% - 32px));
+
+  margin: 0 auto;
+
+  padding: 24px 0 50px;
+}
+
+section {
+  animation: aparecer 0.18s ease;
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* =========================================================
+   TÍTULOS
+   ========================================================= */
+
+h2 {
+  margin: 0 0 4px;
+  font-size: 1.45rem;
+}
+
+h3 {
+  margin-top: 0;
+}
+
+h4 {
+  margin-bottom: 8px;
+}
+
+p {
+  color: var(--muted);
+}
+
+.section-head {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 16px;
+
+  margin-bottom: 18px;
+}
+
+.section-head p {
+  margin: 0;
+}
+
+
+/* =========================================================
+   BOTÕES
+   ========================================================= */
+
+button {
+  padding: 9px 14px;
+
+  border: 0;
+  border-radius: 8px;
+
+  background: var(--main);
+  color: #fff;
+
+  cursor: pointer;
+
+  font: inherit;
+
+  transition:
+    background 0.15s,
+    transform 0.1s,
+    opacity 0.15s;
+}
+
+button:hover {
+  background: var(--main2);
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+button.secondary {
+  background: transparent;
+  color: var(--fg);
+
+  border: 1px solid var(--line);
+}
+
+button.secondary:hover {
+  background: var(--line);
+}
+
+
+/* =========================================================
+   MENSAGENS
+   ========================================================= */
+
+#msg {
+  padding: 11px 14px;
+
+  margin-bottom: 16px;
+
+  border-radius: 9px;
+
+  border: 1px solid transparent;
+}
+
+#msg.erro {
+  background: var(--danger-bg);
+  color: var(--danger);
+
+  border-color: rgba(153, 27, 27, 0.15);
+}
+
+#msg.ok {
+  background: var(--success-bg);
+  color: var(--success);
+
+  border-color: rgba(22, 101, 52, 0.15);
+}
+
+
+/* =========================================================
+   CARDS DO DASHBOARD
+   ========================================================= */
+
+.cards {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(155px, 1fr)
+    );
+
+  gap: 12px;
+
+  margin-bottom: 18px;
+}
+
+.card {
+  background: var(--card);
+
+  border: 1px solid var(--line);
+
+  border-radius: 12px;
+
+  padding: 16px;
+
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.card small {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: var(--muted);
+}
+
+.card b {
+  display: block;
+
+  font-size: 1.45rem;
+
+  line-height: 1.2;
+}
+
+
+/* =========================================================
+   PAINÉIS
+   ========================================================= */
+
+.panel {
+  background: var(--card);
+
+  border: 1px solid var(--line);
+
+  border-radius: 12px;
+
+  padding: 18px;
+
+  margin-bottom: 18px;
+}
+
+.panel h3 {
+  margin-bottom: 14px;
+}
+
+.grid-2 {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap: 18px;
+}
+
+
+/* =========================================================
+   MINI ESTATÍSTICAS
+   ========================================================= */
+
+.mini-stats {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      3,
+      1fr
+    );
+
+  gap: 10px;
+}
+
+.mini-stat {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 3px;
+
+  padding: 12px;
+
+  border-radius: 9px;
+
+  background: var(--bg);
+
+  border: 1px solid var(--line);
+}
+
+.mini-stat span {
+  color: var(--muted);
+
+  font-size: 0.85rem;
+}
+
+.mini-stat strong {
+  font-size: 1.3rem;
+}
+
+
+/* =========================================================
+   BARRAS DE RECEITA
+   ========================================================= */
+
+.bars {
+  list-style: none;
+
+  padding: 0;
+  margin: 0;
+}
+
+.bars li {
+  position: relative;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 9px 10px;
+
+  margin: 7px 0;
+
+  background: var(--bg);
+
+  border: 1px solid var(--line);
+
+  border-radius: 8px;
+
+  overflow: hidden;
+}
+
+.bars i {
+  position: absolute;
+
+  left: 0;
+  top: 0;
+  bottom: 0;
+
+  background: var(--main);
+
+  opacity: 0.18;
+
+  pointer-events: none;
+}
+
+.bars span,
+.bars em {
+  position: relative;
+
+  font-style: normal;
+}
+
+.bars span {
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.bars em {
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   FILTROS
+   ========================================================= */
+
+.filtros {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  margin-bottom: 14px;
+}
+
+.filtros input {
+  flex: 1;
+
+  min-width: 230px;
+}
+
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+input,
+select,
+textarea {
+  padding: 9px 11px;
+
+  border: 1px solid var(--line);
+
+  border-radius: 8px;
+
+  background: var(--card);
+
+  color: var(--fg);
+
+  font: inherit;
+
+  outline: none;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--main);
+
+  box-shadow:
+    0 0 0 2px rgba(15, 118, 110, 0.12);
+}
+
+textarea {
+  width: 100%;
+
+  min-height: 100px;
+
+  resize: vertical;
+}
+
+
+/* =========================================================
+   TABELAS
+   ========================================================= */
+
+.scroll {
+  overflow-x: auto;
+
+  border-radius: 10px;
+}
+
+table {
+  width: 100%;
+
+  min-width: 680px;
+
+  border-collapse: collapse;
+
+  background: var(--card);
+
+  border: 1px solid var(--line);
+}
+
+th,
+td {
+  text-align: left;
+
+  padding: 10px 11px;
+
+  border-bottom:
+    1px solid var(--line);
+
+  vertical-align: middle;
+}
+
+th {
+  background: var(--bg);
+
+  font-size: 0.85rem;
+
+  font-weight: 650;
+
+  white-space: nowrap;
+}
+
+tr:last-child td {
+  border-bottom: 0;
+}
+
+tbody tr:hover {
+  background: rgba(15, 118, 110, 0.035);
+}
+
+td small {
+  color: var(--muted);
+}
+
+
+/* =========================================================
+   TAGS DE STATUS
+   ========================================================= */
+
+.tag {
+  display: inline-block;
+
+  padding: 3px 9px;
+
+  border-radius: 99px;
+
+  font-size: 0.78rem;
+
+  background: var(--line);
+
+  white-space: nowrap;
+}
+
+.tag.Realizada {
+  background: var(--success-bg);
+  color: var(--success);
+}
+
+.tag.Agendada {
+  background: var(--info-bg);
+  color: var(--info);
+}
+
+.tag.Cancelada {
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+
+
+/* =========================================================
+   PAGINAÇÃO
+   ========================================================= */
+
+.pag {
+  display: flex;
+
+  gap: 12px;
+
+  align-items: center;
+
+  justify-content: center;
+
+  margin: 16px 0;
+}
+
+.pag span {
+  color: var(--muted);
+
+  min-width: 110px;
+
+  text-align: center;
+}
+
+
+/* =========================================================
+   DIALOG / MODAIS
+   ========================================================= */
+
+dialog {
+  width: min(480px, 92vw);
+
+  border: 1px solid var(--line);
+
+  border-radius: 14px;
+
+  padding: 20px;
+
+  background: var(--card);
+
+  color: var(--fg);
+
+  box-shadow:
+    0 18px 60px rgba(0, 0, 0, 0.25);
+}
+
+dialog::backdrop {
+  background: rgba(15, 23, 42, 0.48);
+}
+
+dialog h3 {
+  margin-top: 0;
+}
+
+dialog form {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+dialog form input,
+dialog form select,
+dialog form textarea {
+  width: 100%;
+}
+
+.dialog-actions {
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 8px;
+
+  margin-top: 8px;
+}
+
+
+/* =========================================================
+   CHECKBOX
+   ========================================================= */
+
+.check {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  color: var(--fg);
+
+  cursor: pointer;
+}
+
+.check input {
+  width: auto;
+}
+
+
+/* =========================================================
+   RESPONSIVIDADE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  header {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  nav {
+    width: 100%;
+
+    overflow-x: auto;
+
+    padding-bottom: 3px;
+  }
+
+  nav button {
+    flex: 0 0 auto;
+  }
+
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  main {
+    width: min(
+      100% - 20px,
+      1180px
+    );
+
+    padding-top: 16px;
+  }
+
+  header {
+    padding: 12px 14px;
+  }
+
+  .section-head {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .section-head button {
+    width: 100%;
+  }
+
+  .cards {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+  }
+
+  .mini-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .filtros {
+    flex-direction: column;
+  }
+
+  .filtros input,
+  .filtros select,
+  .filtros button {
+    width: 100%;
+  }
+
+  .card b {
+    font-size: 1.2rem;
+  }
+
+  .panel {
+    padding: 14px;
+  }
+
+}
+
+
+/* =========================================================
+   PEQUENOS AJUSTES
+   ========================================================= */
+
+[hidden] {
+  display: none !important;
+}
+
+::selection {
+  background: var(--main);
+  color: #fff;
+}

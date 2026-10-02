@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Clínica Integrada | Gestão Clínica</title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="js/main.js"></script>
+</head>
+
+<body>
+
+  <!-- CABEÇALHO -->
+  <header>
+
+    <div class="brand">
+      <span class="brand-icon">✚</span>
+
+      <div>
+        <h1>Clínica Integrada</h1>
+        <small>Gestão clínica</small>
+      </div>
+    </div>
+
+    <!-- MENU -->
+    <nav id="nav">
+
+      <button class="on" data-s="dashboard">
+        Dashboard
+      </button>
+
+      <button data-s="consultas">
+        Consultas
+      </button>
+
+      <button data-s="pacientes">
+        Pacientes
+      </button>
+
+      <button data-s="profissionais">
+        Profissionais
+      </button>
+
+      <button data-s="especialidades">
+        Especialidades
+      </button>
+
+      <button data-s="procedimentos">
+        Procedimentos
+      </button>
+
+    </nav>
+
+  </header>
+
+
+  <main>
+
+    <!-- MENSAGEM DO SISTEMA -->
+    <div id="msg" hidden></div>
+
+
+    <!-- ================================================= -->
+    <!-- DASHBOARD -->
+    <!-- ================================================= -->
+
+    <section id="dashboard">
+
+      <div class="section-head">
+
+        <div>
+          <h2>Visão geral</h2>
+          <p>Resumo dos dados da clínica.</p>
+        </div>
+
+        <button class="secondary" data-refresh>
+          Atualizar
+        </button>
+
+      </div>
+
+
+      <!-- CARDS -->
+      <div id="cards" class="cards"></div>
+
+
+      <!-- RESUMOS -->
+      <div class="grid-2">
+
+        <!-- STATUS -->
+        <article class="panel">
+
+          <h3>Consultas por status</h3>
+
+          <div
+            id="statusResumo"
+            class="mini-stats">
+          </div>
+
+        </article>
+
+
+        <!-- RECEITA -->
+        <article class="panel">
+
+          <h3>Receita por especialidade</h3>
+
+          <ul
+            id="top"
+            class="bars">
+          </ul>
+
+        </article>
+
+      </div>
+
+
+      <!-- PROCEDIMENTOS -->
+      <article class="panel">
+
+        <h3>Procedimentos mais utilizados</h3>
+
+        <div class="scroll">
+
+          <table>
+
+            <thead>
+
+              <tr>
+                <th>Procedimento</th>
+                <th>Quantidade</th>
+                <th>Valor gerado</th>
+              </tr>
+
+            </thead>
+
+            <tbody id="topProcedimentos"></tbody>
+
+          </table>
+
+        </div>
+
+      </article>
+
+    </section>
+
+
+
+    <!-- ================================================= -->
+    <!-- CONSULTAS -->
+    <!-- ================================================= -->
+
+    <section id="consultas" hidden>
+
+      <div class="section-head">
+
+        <div>
+          <h2>Consultas</h2>
+          <p>Agendamentos e histórico clínico.</p>
+        </div>
+
+      </div>
+
+
+      <!-- FILTROS -->
+      <div class="filtros">
+
+        <input
+          id="busca"
+          type="search"
+          placeholder="Buscar paciente, profissional ou especialidade"
+        >
+
+        <select id="status">
+
+          <option value="">
+            Todos os status
+          </option>
+
+          <option value="Agendada">
+            Agendada
+          </option>
+
+          <option value="Realizada">
+            Realizada
+          </option>
+
+          <option value="Cancelada">
+            Cancelada
+          </option>
+
+        </select>
+
+        <button data-refresh>
+          Atualizar
+        </button>
+
+      </div>
+
+
+      <!-- TABELA -->
+      <div class="scroll">
+
+        <table>
+
+          <thead>
+
+            <tr>
+              <th>Data</th>
+              <th>Paciente</th>
+              <th>Profissional</th>
+              <th>Status</th>
+              <th>Valor</th>
+              <th>Ações</th>
+            </tr>
+
+          </thead>
+
+          <tbody id="lista"></tbody>
+
+        </table>
+
+      </div>
+
+
+      <!-- PAGINAÇÃO -->
+      <div class="pag">
+
+        <button id="ant">
+          ← Anterior
+        </button>
+
+        <span id="pag"></span>
+
+        <button id="prox">
+          Próxima →
+        </button>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ================================================= -->
+    <!-- PACIENTES -->
+    <!-- ================================================= -->
+
+    <section id="pacientes" hidden>
+
+      <div class="section-head">
+
+        <div>
+          <h2>Pacientes</h2>
+          <p>Cadastro e acompanhamento dos pacientes.</p>
+        </div>
+
+        <button data-open="pacienteDlg">
+          + Novo paciente
+        </button>
+
+      </div>
+
+
+      <div class="filtros">
+
+        <input
+          id="buscaPaciente"
+          type="search"
+          placeholder="Buscar paciente por nome ou e-mail"
+        >
+
+        <select id="filtroPacienteAtivo">
+
+          <option value="">
+            Todos
+          </option>
+
+          <option value="true">
+            Ativos
+          </option>
+
+          <option value="false">
+            Inativos
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="scroll">
+
+        <table>
+
+          <thead>
+
+            <tr>
+              <th>Nome</th>
+              <th>Nascimento</th>
+              <th>Contato</th>
+              <th>Situação</th>
+              <th>Ações</th>
+            </tr>
+
+          </thead>
+
+          <tbody id="pac"></tbody>
+
+        </table>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ================================================= -->
+    <!-- PROFISSIONAIS -->
+    <!-- ================================================= -->
+
+    <section id="profissionais" hidden>
+
+      <div class="section-head">
+
+        <div>
+          <h2>Profissionais</h2>
+          <p>Equipe e especialidades da clínica.</p>
+        </div>
+
+        <button data-open="profissionalDlg">
+          + Novo profissional
+        </button>
+
+      </div>
+
+
+      <div class="filtros">
+
+        <input
+          id="buscaProfissional"
+          type="search"
+          placeholder="Buscar por nome ou registro"
+        >
+
+
+        <select id="filtroProfEspecialidade">
+
+          <option value="">
+            Todas as especialidades
+          </option>
+
+        </select>
+
+
+        <select id="filtroProfAtivo">
+
+          <option value="">
+            Todos
+          </option>
+
+          <option value="true">
+            Ativos
+          </option>
+
+          <option value="false">
+            Inativos
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="scroll">
+
+        <table>
+
+          <thead>
+
+            <tr>
+              <th>Nome</th>
+              <th>Registro</th>
+              <th>Especialidade</th>
+              <th>Situação</th>
+              <th>Ações</th>
+            </tr>
+
+          </thead>
+
+          <tbody id="prof"></tbody>
+
+        </table>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ================================================= -->
+    <!-- ESPECIALIDADES -->
+    <!-- ================================================= -->
+
+    <section id="especialidades" hidden>
+
+      <div class="section-head">
+
+        <div>
+          <h2>Especialidades</h2>
+          <p>Áreas médicas cadastradas.</p>
+        </div>
+
+        <button data-open="especialidadeDlg">
+          + Nova especialidade
+        </button>
+
+      </div>
+
+
+      <div class="filtros">
+
+        <input
+          id="buscaEspecialidade"
+          type="search"
+          placeholder="Buscar especialidade"
+        >
+
+      </div>
+
+
+      <div class="scroll">
+
+        <table>
+
+          <thead>
+
+            <tr>
+              <th>Nome</th>
+              <th>Descrição</th>
+              <th>Profissionais</th>
+            </tr>
+
+          </thead>
+
+          <tbody id="esp"></tbody>
+
+        </table>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ================================================= -->
+    <!-- PROCEDIMENTOS -->
+    <!-- ================================================= -->
+
+    <section id="procedimentos" hidden>
+
+      <div class="section-head">
+
+        <div>
+          <h2>Procedimentos</h2>
+          <p>Exames e procedimentos disponíveis na clínica.</p>
+        </div>
+
+        <button data-open="procedimentoDlg">
+          + Novo procedimento
+        </button>
+
+      </div>
+
+
+      <div class="filtros">
+
+        <input
+          id="buscaProcedimento"
+          type="search"
+          placeholder="Buscar procedimento"
+        >
+
+
+        <select id="filtroProcAtivo">
+
+          <option value="">
+            Todos
+          </option>
+
+          <option value="true">
+            Ativos
+          </option>
+
+          <option value="false">
+            Inativos
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="scroll">
+
+        <table>
+
+          <thead>
+
+            <tr>
+              <th>Nome</th>
+              <th>Descrição</th>
+              <th>Valor</th>
+              <th>Situação</th>
+              <th>Ações</th>
+            </tr>
+
+          </thead>
+
+          <tbody id="proc"></tbody>
+
+        </table>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+
+  <!-- ================================================= -->
+  <!-- MODAL DE DETALHES DA CONSULTA -->
+  <!-- ================================================= -->
+
+  <dialog id="dlg">
+
+    <div id="det"></div>
+
+    <button
+      class="secondary"
+      type="button"
+      onclick="this.closest('dialog').close()"
+    >
+      Fechar
+    </button>
+
+  </dialog>
+
+
+
+  <!-- ================================================= -->
+  <!-- MODAL NOVO PACIENTE -->
+  <!-- ================================================= -->
+
+  <dialog id="pacienteDlg">
+
+    <form
+      id="formPaciente"
+      method="dialog"
+    >
+
+      <h3>Novo paciente</h3>
+
+
+      <input
+        name="nome"
+        placeholder="Nome completo"
+        required
+      >
+
+
+      <input
+        name="nasc"
+        type="date"
+        required
+      >
+
+
+      <input
+        name="tel"
+        placeholder="Telefone"
+      >
+
+
+      <input
+        name="email"
+        type="email"
+        placeholder="E-mail"
+      >
+
+
+      <div class="dialog-actions">
+
+        <button
+          type="button"
+          class="secondary"
+          data-close
+        >
+          Cancelar
+        </button>
+
+        <button type="submit">
+          Cadastrar
+        </button>
+
+      </div>
+
+    </form>
+
+  </dialog>
+
+
+
+  <!-- ================================================= -->
+  <!-- MODAL NOVO PROFISSIONAL -->
+  <!-- ================================================= -->
+
+  <dialog id="profissionalDlg">
+
+    <form
+      id="formProfissional"
+      method="dialog"
+    >
+
+      <h3>Novo profissional</h3>
+
+
+      <input
+        name="nome"
+        placeholder="Nome completo"
+        required
+      >
+
+
+      <input
+        name="registro"
+        placeholder="Registro profissional"
+        required
+      >
+
+
+      <select
+        name="especialidade"
+        id="profEspecialidade"
+        required
+      >
+
+        <option value="">
+          Selecione uma especialidade
+        </option>
+
+      </select>
+
+
+      <label class="check">
+
+        <input
+          name="ativo"
+          type="checkbox"
+          checked
+        >
+
+        Ativo
+
+      </label>
+
+
+      <div class="dialog-actions">
+
+        <button
+          type="button"
+          class="secondary"
+          data-close
+        >
+          Cancelar
+        </button>
+
+        <button type="submit">
+          Cadastrar
+        </button>
+
+      </div>
+
+    </form>
+
+  </dialog>
+
+
+
+  <!-- ================================================= -->
+  <!-- MODAL NOVA ESPECIALIDADE -->
+  <!-- ================================================= -->
+
+  <dialog id="especialidadeDlg">
+
+    <form
+      id="formEspecialidade"
+      method="dialog"
+    >
+
+      <h3>Nova especialidade</h3>
+
+
+      <input
+        name="nome"
+        placeholder="Nome da especialidade"
+        required
+      >
+
+
+      <textarea
+        name="descricao"
+        placeholder="Descrição da especialidade"
+        required
+      ></textarea>
+
+
+      <div class="dialog-actions">
+
+        <button
+          type="button"
+          class="secondary"
+          data-close
+        >
+          Cancelar
+        </button>
+
+        <button type="submit">
+          Cadastrar
+        </button>
+
+      </div>
+
+    </form>
+
+  </dialog>
+
+
+
+  <!-- ================================================= -->
+  <!-- MODAL NOVO PROCEDIMENTO -->
+  <!-- ================================================= -->
+
+  <dialog id="procedimentoDlg">
+
+    <form
+      id="formProcedimento"
+      method="dialog"
+    >
+
+      <h3>Novo procedimento</h3>
+
+
+      <input
+        name="nome"
+        placeholder="Nome do procedimento"
+        required
+      >
+
+
+      <textarea
+        name="descricao"
+        placeholder="Descrição do procedimento"
+        required
+      ></textarea>
+
+
+      <input
+        name="valor"
+        type="number"
+        step="0.01"
+        min="0"
+        placeholder="Valor"
+        required
+      >
+
+
+      <label class="check">
+
+        <input
+          name="ativo"
+          type="checkbox"
+          checked
+        >
+
+        Ativo
+
+      </label>
+
+
+      <div class="dialog-actions">
+
+        <button
+          type="button"
+          class="secondary"
+          data-close
+        >
+          Cancelar
+        </button>
+
+        <button type="submit">
+          Cadastrar
+        </button>
+
+      </div>
+
+    </form>
+
+  </dialog>
+
+</body>
+</html>
